@@ -1,0 +1,36 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    maven {
+      name = "forge"
+      url = "http://files.minecraftforge.net/maven"
+    }
+    maven {
+      name = "sonatype"
+      url = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+  }
+  dependencies {
+    classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+  }
+}
+
+apply plugin: 'forge'
+
+version = "0.0.1.5-1.7.10"
+group = "zotmc.thaumcarpentry"
+archivesBaseName = "Thaumcarpentry"
+
+minecraft {
+  version = "1.7.10-10.13.0.1207"
+  assetDir = "eclipse/assets"
+}
+
+
+[compileJava, compileTestJava].each {
+  it.options.encoding = 'UTF-8'
+  it.options.compilerArgs += ['-source', '1.7', '-target', '1.7']
+}
+reobf {
+  deobfFile = new net.minecraftforge.gradle.delayed.DelayedFile(project, "build/tmp/deobfuscateJar/deobfed.jar")
+}
